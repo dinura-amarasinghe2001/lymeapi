@@ -11,15 +11,12 @@ from tensorflow.keras.models import load_model
 
 app = FastAPI(title="Lyme Disease Detection API")
 
-# ==========================
-# Download and extract model if not exists
-# ==========================
+
 
 MODEL_FOLDER = "model"
 MODEL_ZIP = "models.zip"
 
-# Google Drive file ID from your link
-# Link: https://drive.google.com/file/d/1ROOVIWiVis3bHK9C16JHvcAAu2z6aKMT/view
+
 FILE_ID = "1ROOVIWiVis3bHK9C16JHvcAAu2z6aKMT"
 
 if not os.path.exists(MODEL_FOLDER):
@@ -32,9 +29,7 @@ if not os.path.exists(MODEL_FOLDER):
         zip_ref.extractall()
     print("Models ready")
 
-# ==========================
-# Load models
-# ==========================
+
 
 MODEL_PATH = os.path.join(MODEL_FOLDER, "kfold_synthetic_adaptiveenhancement")
 MODEL_PATHS = [
@@ -51,9 +46,9 @@ class_names = ['em', 'pityriasis', 'ringworm']
 # Image size for model
 IMG_SIZE = (224, 224)
 
-# ==========================
+
 # Adaptive enhancement function
-# ==========================
+
 
 def adaptive_enhance(img, min_contrast=0.3, max_clip=4.0):
     img = img.astype(np.float32) / 255.0
@@ -77,9 +72,9 @@ def adaptive_enhance(img, min_contrast=0.3, max_clip=4.0):
 
     return np.clip(enhanced, 0, 1)
 
-# ==========================
+
 # Prediction endpoint
-# ==========================
+
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
@@ -101,4 +96,5 @@ async def predict(file: UploadFile = File(...)):
 
     # Format results
     result = {cls: round(float(prob), 2) for cls, prob in zip(class_names, avg_preds_percent)}
+
     return JSONResponse(content=result)
