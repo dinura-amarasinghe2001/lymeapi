@@ -14,7 +14,7 @@ app = FastAPI(title="Lyme Disease Detection API")
 
 
 MODEL_FOLDER = "model"
-MODEL_ZIP = "models.zip"
+MODEL_ZIP = "model.zip"
 
 
 FILE_ID = "1ROOVIWiVis3bHK9C16JHvcAAu2z6aKMT"
@@ -98,3 +98,4 @@ async def predict(file: UploadFile = File(...)):
     result = {cls: round(float(prob), 2) for cls, prob in zip(class_names, avg_preds_percent)}
 
     return JSONResponse(content=result)
+
