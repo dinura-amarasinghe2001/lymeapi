@@ -17,7 +17,7 @@ MODEL_FOLDER = "model"
 MODEL_ZIP = "model.zip"
 
 
-FILE_ID = "1ROOVIWiVis3bHK9C16JHvcAAu2z6aKMT"
+FILE_ID = "1-1g5H7G_lj3riz4WrcEHP_JM28WsAKO4"
 
 if not os.path.exists(MODEL_FOLDER):
     print("Downloading models from Google Drive...")
@@ -98,4 +98,5 @@ async def predict(file: UploadFile = File(...)):
     result = {cls: round(float(prob), 2) for cls, prob in zip(class_names, avg_preds_percent)}
 
     return JSONResponse(content=result)
+
 
