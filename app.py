@@ -33,7 +33,7 @@ if not os.path.exists(MODEL_FOLDER):
 
 MODEL_PATH = os.path.join(MODEL_FOLDER, "kfold_synthetic_adaptiveenhancement")
 MODEL_PATHS = [
-    os.path.join(MODEL_PATH, f"fold_{i}", "model.h5") for i in range(1, 6)
+    os.path.join(MODEL_PATH, f"fold_{i}", "model.tflite") for i in range(1, 6)
 ]
 
 print("Loading models...")
@@ -98,5 +98,6 @@ async def predict(file: UploadFile = File(...)):
     result = {cls: round(float(prob), 2) for cls, prob in zip(class_names, avg_preds_percent)}
 
     return JSONResponse(content=result)
+
 
 
